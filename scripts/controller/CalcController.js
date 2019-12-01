@@ -1,6 +1,8 @@
 class CalcController {
 
 	constructor() {
+		this._operation = [];
+
 		this._locale = "pt-BR";
 
 		this._displayCalcEl = document.querySelector("#display");
@@ -24,6 +26,67 @@ class CalcController {
 
 	// Funções de Eventos e Clicks
 
+	clearAll() {
+		this._operation = [];
+	}
+
+	clearEntry() {
+		this._operation.pop();
+	}
+
+	addOperation(value) {
+		this._operation.push(value);
+		console.log(this._operation);
+	}
+
+	setError() {
+		this.displayCalc = "Error";
+	}
+
+	execBtn(value) {
+		switch (value) {
+			case "ac":
+				this.clearAll();
+				break;
+			case "ce":
+				this.clearEntry();
+				break;
+			case "soma":
+				
+				break;
+			case "subtracao":
+				
+				break;
+			case "divisao":
+				
+				break;
+			case "multiplicacao":
+				
+				break;
+			case "porcento":
+				
+				break;
+			case "igual":
+				
+				break;
+			case "0":
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
+			case "6":
+			case "7":
+			case "8":
+			case "9":
+				this.addOperation(parseInt(value));
+				break;
+			default:
+				this.setError();
+				break;
+		}
+	}
+
 	addEventListenerall(element, events, fn) {
 		events.split(" ").forEach(event => {
 			element.addEventListener(event, fn, false);
@@ -33,8 +96,9 @@ class CalcController {
 	initButtonsEvents() {
 		let buttons = document.querySelectorAll("#buttons > g, #parts > g");
 		buttons.forEach((btn, index) => {
-			this.addEventListenerall(btn, "click drag mouseover", e => {
-				console.log(btn.className.baseVal.replace("btn-", ""));
+			this.addEventListenerall(btn, "click drag", e => {
+				let btnText = btn.className.baseVal.replace("btn-", "");
+				this.execBtn(btnText);
 			});
 			this.addEventListenerall(btn, "mouseover mouseup mousedown", e => {
 				btn.style.cursor = "pointer";
