@@ -8,7 +8,9 @@ class CalcController {
 		this._timeEl = document.querySelector("#hora");
 
 		this._currentDate;
+
 		this.initialize();
+		this.initButtonsEvents();
 
 	}
 
@@ -20,44 +22,55 @@ class CalcController {
 		}, 1000)
 	}
 
-	setDisplayDateTime() {
-		this.displayDate = this.currentDate.toLocaleDateString(this._locale, {
-			day: "2-digit",
-			month: "long",
-			year: "numeric"
+	// Funções de Eventos e Clicks
+	initButtonsEvents() {
+		let buttons = document.querySelectorAll("#buttons > g, #parts > g");
+		buttons.forEach((btn, index) => {
+			btn.addEventListener("click", e => {
+				console.log(btn.className.baseVal.replace("btn-", ""));
+			})
 		});
-		this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
 	}
 
-	get displayTime() {
-		return this._timeEl.innerHTML;
-	}
+	// Funcções de Hora e Data
+		setDisplayDateTime() {
+			this.displayDate = this.currentDate.toLocaleDateString(this._locale, {
+				day: "2-digit",
+				month: "long",
+				year: "numeric"
+			});
+			this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
+		}
 
-	set displayTime(value) {
-		this._timeEl.innerHTML = value;	
-	}
+		get displayTime() {
+			return this._timeEl.innerHTML;
+		}
 
-	get displayDate() {
-		return this._dateEl.innerHTML;
-	}
+		set displayTime(value) {
+			this._timeEl.innerHTML = value;	
+		}
 
-	set displayDate(value) {
-		this._dateEl.innerHTML = value;
-	}
+		get displayDate() {
+			return this._dateEl.innerHTML;
+		}
 
-	get displayCalc() {
-		return this._displayCalcEl.innerHTML;
-	}
+		set displayDate(value) {
+			this._dateEl.innerHTML = value;
+		}
 
-	set displayCalc(value) {
-		this._displayCalcEl.innerHTML = value;
-	}
+		get displayCalc() {
+			return this._displayCalcEl.innerHTML;
+		}
 
-	get currentDate() {
-		return new Date;
-	}
+		set displayCalc(value) {
+			this._displayCalcEl.innerHTML = value;
+		}
 
-	set currentDate(value) {
-		this._currentDate = value;
-	}
+		get currentDate() {
+			return new Date;
+		}
+
+		set currentDate(value) {
+			this._currentDate = value;
+		}
 }
