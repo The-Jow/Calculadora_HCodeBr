@@ -21,17 +21,21 @@ class CalcController {
 
 		setInterval(() => {
 			this.setDisplayDateTime();
-		}, 1000)
+		}, 1000);
+
+		this.setLastNumberToDisplay();
 	}
 
 	// Funções de Eventos e Clicks
 
 	clearAll() {
 		this._operation = [];
+		this.setLastNumberToDisplay();
 	}
 
 	clearEntry() {
 		this._operation.pop();
+		this.setLastNumberToDisplay();
 	}
 
 	getLastOperation() {
@@ -50,19 +54,27 @@ class CalcController {
 		this._operation.push(value);
 
 		if (this._operation.length > 3) {
-
 			this.calc();
-
 		} 
 	}
 	calc() {
-		let last = this._operation.pop();
-
+		let last = "";
+		if (this._operation.length > 3) {
+			this._operation.pop();
+		}
 		let result = eval(this._operation.join(""));
-		
-		this._operation = [result, last];
+
+		if (last == "%") {
+			result /= 100;
+			this._operation = [result]; // [resultado]
+		} else {
+			this._operation = [result];
+			if (last) this._operation.push(last); // [resultado, sinal]
+		}
 
 		this.setLastNumberToDisplay();
+
+		this._operation.pop();
 	}
 
 	setLastNumberToDisplay() {
@@ -75,7 +87,9 @@ class CalcController {
 			}
 		}
 
+		if (!lastNumber) lastNumber = 0;
 		this.displayCalc = lastNumber;
+
 	}
 
 	addOperation(value) {
@@ -136,7 +150,7 @@ class CalcController {
 				this.addOperation("%");
 				break;
 			case "igual":
-				
+				this.calc();
 				break;
 			case "ponto":
 				this.addOperation(".");
